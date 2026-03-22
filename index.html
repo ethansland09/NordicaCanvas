@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>NORDICA // TACTICAL_CANVAS_V4</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
@@ -549,6 +550,177 @@ input[type="file"] { display: none; }
 }
 #fs-body .fs-markdown h1,h2,h3 { color: var(--ng); font-family: 'Orbitron', monospace; margin: 1em 0 0.4em; }
 
+
+/* ══════════════════════════════════════════════
+   MOBILE LAYOUT  (≤ 768px)
+══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Hide desktop toolbar entirely */
+  #toolbar { display: none !important; }
+
+  /* Viewport fills full screen */
+  #viewport {
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+
+  /* Status and minimap hidden on mobile */
+  #status, #minimap { display: none !important; }
+
+  /* ── MOBILE TOP BAR ── */
+  #mobile-topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 48px; z-index: 9100;
+    background: var(--panel);
+    border-bottom: 1px solid var(--ng-dim);
+    display: flex; align-items: center;
+    padding: 0 12px; gap: 10px;
+    box-shadow: 0 2px 16px rgba(0,255,65,0.15);
+  }
+
+  #mobile-topbar .m-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900; font-size: 0.75rem;
+    letter-spacing: 3px; color: var(--ng);
+    text-shadow: var(--glow); flex: 1;
+  }
+
+  #mobile-search {
+    background: transparent; border: 1px solid var(--ng-dim);
+    color: var(--ng); padding: 4px 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem; outline: none; width: 120px;
+    border-radius: 0;
+  }
+  #mobile-search:focus { border-color: var(--ng); }
+  #mobile-search::placeholder { color: var(--ng-dim); }
+
+  #mobile-menu-btn {
+    background: transparent; border: 1px solid var(--ng-dim);
+    color: var(--ng); padding: 6px 10px; cursor: pointer;
+    font-size: 0.8rem;
+  }
+
+  /* Shift viewport down below topbar */
+  #viewport {
+    height: calc(100vh - 48px) !important;
+    height: calc(100dvh - 48px) !important;
+    margin-top: 48px !important;
+  }
+
+  /* ── MOBILE FAB ── */
+  #mobile-fab {
+    position: fixed; bottom: 80px; right: 16px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--ng); color: #000;
+    border: none; font-size: 1.4rem;
+    cursor: pointer; z-index: 9100;
+    box-shadow: 0 4px 20px rgba(0,255,65,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    transition: transform 0.15s, background 0.15s;
+  }
+  #mobile-fab:active { transform: scale(0.92); }
+  #mobile-fab.open { background: var(--red); transform: rotate(45deg); }
+
+  /* ── MOBILE BOTTOM DRAWER ── */
+  #mobile-drawer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--panel);
+    border-top: 1px solid var(--ng-dim);
+    z-index: 9050;
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 -4px 30px rgba(0,255,65,0.2);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  #mobile-drawer.open { transform: translateY(0); }
+
+  #mobile-drawer-handle {
+    height: 36px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; gap: 6px;
+    font-size: 0.55rem; color: var(--ng-dim); letter-spacing: 2px;
+  }
+  #mobile-drawer-handle::before {
+    content: '';
+    width: 32px; height: 3px;
+    background: var(--ng-dim); border-radius: 2px;
+    display: block;
+  }
+
+  .m-drawer-section {
+    padding: 8px 12px 12px;
+    border-top: 1px solid var(--ng-dim);
+  }
+  .m-drawer-label {
+    font-size: 0.5rem; color: var(--ng-dim);
+    letter-spacing: 3px; margin-bottom: 8px; display: block;
+  }
+  .m-btn-row {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .m-btn {
+    flex: 1; min-width: 80px;
+    background: transparent; border: 1px solid var(--ng-dim);
+    color: var(--ng); padding: 10px 8px; cursor: pointer;
+    font-size: 0.6rem; font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase; letter-spacing: 1px;
+    text-align: center;
+    transition: all 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-btn:active { background: var(--ng); color: #000; }
+  .m-btn.amber { border-color: var(--amber); color: var(--amber); }
+  .m-btn.amber:active { background: var(--amber); color: #000; }
+  .m-btn.blue { border-color: var(--blue); color: var(--blue); }
+  .m-btn.blue:active { background: var(--blue); color: #000; }
+  .m-btn.red { border-color: var(--red); color: var(--red); }
+  .m-btn.red:active { background: var(--red); color: #fff; }
+  .m-btn.active { background: var(--ng); color: #000; }
+  .m-btn.amber.active { background: var(--amber); color: #000; }
+
+  /* ── CARDS ON MOBILE ── */
+  .card { min-width: 180px; touch-action: none; }
+  .card-header { padding: 8px 10px; }
+  .card-title-input { font-size: 0.7rem; }
+  .card-preview { padding: 10px; min-height: 44px; }
+  .card-action-btn { padding: 4px 8px; font-size: 0.8rem; min-width: 32px; min-height: 32px; }
+
+  /* Long-press context ripple */
+  .card.press-active { box-shadow: 0 0 0 2px var(--amber) !important; }
+
+  /* ── FULLSCREEN on mobile ── */
+  #fs-bar { height: 48px; padding: 0 12px; }
+  #fs-title { font-size: 0.65rem; }
+  #fs-close { padding: 6px 12px; }
+  #fs-body { padding: 12px; }
+
+  /* ── MODAL on mobile ── */
+  #modal-box {
+    width: calc(100vw - 32px);
+    max-width: 400px;
+  }
+
+  /* ── CONTEXT MENU ── */
+  #ctx-menu { min-width: 200px; }
+  .ctx-item { padding: 12px 16px; font-size: 0.7rem; }
+
+  /* ── TOAST ── */
+  #toast { font-size: 0.6rem; bottom: 80px; }
+
+  /* Hide sel-box on mobile (no drag-select) */
+  #sel-box { display: none !important; }
+}
+
+/* Show mobile UI only on mobile */
+#mobile-topbar, #mobile-fab, #mobile-drawer { display: none; }
+@media (max-width: 768px) {
+  #mobile-topbar, #mobile-fab, #mobile-drawer { display: flex; }
+  #mobile-drawer { display: block; }
+  #mobile-fab { display: flex; }
+}
+
 </style>
 </head>
 <body>
@@ -588,6 +760,54 @@ input[type="file"] { display: none; }
 
   <input type="text" id="search-box" placeholder="SEARCH NODES..." oninput="searchNodes(this.value)">
   <div id="zoom-display">ZOOM: 100%</div>
+</div>
+
+
+<!-- ══ MOBILE UI ══ -->
+<div id="mobile-topbar">
+  <span class="m-logo">NORDICA</span>
+  <input type="text" id="mobile-search" placeholder="SEARCH..." oninput="searchNodes(this.value)">
+  <button id="mobile-menu-btn" onclick="toggleMobileDrawer()">☰</button>
+</div>
+
+<button id="mobile-fab" onclick="onFabTap()" title="Add note">＋</button>
+
+<div id="mobile-drawer">
+  <div id="mobile-drawer-handle" onclick="toggleMobileDrawer()"></div>
+
+  <div class="m-drawer-section">
+    <span class="m-drawer-label">CREATE</span>
+    <div class="m-btn-row">
+      <button class="m-btn" onclick="addNodeAt('note');closeMobileDrawer()">＋ NOTE</button>
+      <button class="m-btn" onclick="addNodeAt('board');closeMobileDrawer()">＋ BOARD</button>
+    </div>
+  </div>
+
+  <div class="m-drawer-section">
+    <span class="m-drawer-label">CANVAS</span>
+    <div class="m-btn-row">
+      <button class="m-btn amber" id="m-linkBtn" onclick="toggleLinkMode();updateMobileLinkBtn()">⬡ LINK</button>
+      <button class="m-btn red" onclick="deleteSelected();closeMobileDrawer()">✕ DELETE</button>
+      <button class="m-btn" onclick="autoLayout();closeMobileDrawer()">⊞ LAYOUT</button>
+      <button class="m-btn" onclick="resetView();closeMobileDrawer()">⊕ RESET</button>
+    </div>
+  </div>
+
+  <div class="m-drawer-section">
+    <span class="m-drawer-label">FILES</span>
+    <div class="m-btn-row">
+      <button class="m-btn" onclick="document.getElementById('fileInput').click();closeMobileDrawer()">⬆ FILES</button>
+      <button class="m-btn" onclick="document.getElementById('dirInput').click();closeMobileDrawer()">⬆ FOLDER</button>
+    </div>
+  </div>
+
+  <div class="m-drawer-section">
+    <span class="m-drawer-label">NDC EXPORT / IMPORT</span>
+    <div class="m-btn-row">
+      <button class="m-btn blue" onclick="exportCanvas();closeMobileDrawer()">↓ EXPORT .NDC</button>
+      <button class="m-btn blue" onclick="importCanvas();closeMobileDrawer()">↑ IMPORT .NDC</button>
+    </div>
+  </div>
 </div>
 
 <!-- VIEWPORT -->
@@ -684,6 +904,12 @@ const WORLD_W = 20000, WORLD_H = 20000;
 // TRANSFORM
 // ═══════════════════════════════════════════════
 function applyTransform() {
+  // Soft clamp — prevent losing the canvas completely off-screen
+  const vw = viewport.clientWidth  || window.innerWidth;
+  const vh = viewport.clientHeight || window.innerHeight;
+  const maxDrift = 18000 * zoom;
+  panX = Math.max(-maxDrift, Math.min(vw + maxDrift, panX));
+  panY = Math.max(-maxDrift, Math.min(vh + maxDrift, panY));
   world.style.transform = `translate(${panX}px,${panY}px) scale(${zoom})`;
   document.getElementById('zoom-display').textContent = `ZOOM: ${Math.round(zoom*100)}%`;
   updateGridBackground();
@@ -971,6 +1197,8 @@ function createNode({type='note', title='NODE', content='', x=100, y=100, id=nul
 
   world.appendChild(el);
   nodes.push({id:nid, type, title, color, x, y});
+  // Attach mobile touch drag if on mobile
+  if (typeof isMobile === 'function' && isMobile()) addCardTouchDrag(el, nid);
   updateStatus();
   drawLinks();
   drawMinimap();
@@ -1518,7 +1746,12 @@ function ctxAction(action) {
 // SEARCH
 // ═══════════════════════════════════════════════
 function searchNodes(q) {
-  q = q.toLowerCase().trim();
+  q = (q || '').toLowerCase().trim();
+  // Keep both desktop and mobile search inputs in sync
+  const ds = document.getElementById('search-box');
+  const ms = document.getElementById('mobile-search');
+  if (ds && ds.value.toLowerCase() !== q) ds.value = q;
+  if (ms && ms.value.toLowerCase() !== q) ms.value = q;
   nodes.forEach(n => {
     const el = document.getElementById(n.id);
     if (!el) return;
@@ -1929,12 +2162,16 @@ function collectNodeContent(id) {
 async function exportCanvas() {
   toast('PACKAGING CANVAS...');
   try {
-    // Sync every node's x/y from actual DOM position (source of truth)
+    // Sync every node's x/y and color from actual DOM (source of truth)
     nodes.forEach(n => {
       const el = document.getElementById(n.id);
       if (el) {
-        n.x = parseFloat(el.style.left) || n.x;
-        n.y = parseFloat(el.style.top)  || n.y;
+        const left = parseFloat(el.style.left);
+        const top  = parseFloat(el.style.top);
+        if (!isNaN(left)) n.x = left;
+        if (!isNaN(top))  n.y = top;
+        const colorMatch = el.className.match(/\bcolor-(red|amber|blue|purple)\b/);
+        n.color = colorMatch ? colorMatch[1] : null;
       }
     });
 
@@ -2074,8 +2311,8 @@ function importCanvas() {
           id:       n.id,
           type:     n.type     || 'note',
           title:    n.title    || 'NODE',
-          x:        n.x        || 100,
-          y:        n.y        || 100,
+          x:        n.x != null ? n.x : 100,
+          y:        n.y != null ? n.y : 100,
           color:    n.color    || null,
           content:  n.content  || fdata.content || '',
           fileType: fdata.fileType || null,
@@ -2116,6 +2353,235 @@ function toast(msg) {
   t._to = setTimeout(() => t.style.opacity = '0', 2200);
 }
 
+
+// ═══════════════════════════════════════════════
+// MOBILE / TOUCH SUPPORT
+// ═══════════════════════════════════════════════
+
+const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+// ── Mobile drawer ──
+function toggleMobileDrawer() {
+  const d = document.getElementById('mobile-drawer');
+  const fab = document.getElementById('mobile-fab');
+  const open = d.classList.toggle('open');
+  fab.classList.toggle('open', open);
+}
+function closeMobileDrawer() {
+  document.getElementById('mobile-drawer').classList.remove('open');
+  document.getElementById('mobile-fab').classList.remove('open');
+}
+
+function onFabTap() {
+  if (document.getElementById('mobile-drawer').classList.contains('open')) {
+    closeMobileDrawer();
+  } else {
+    addNodeAt('note');
+  }
+}
+
+function updateMobileLinkBtn() {
+  const btn = document.getElementById('m-linkBtn');
+  if (btn) btn.classList.toggle('active', linkMode);
+}
+
+// ── Touch pan & pinch-zoom ──
+let touchState = null;
+
+function getTouchMidpoint(t1, t2) {
+  return {
+    x: (t1.clientX + t2.clientX) / 2,
+    y: (t1.clientY + t2.clientY) / 2
+  };
+}
+function getTouchDist(t1, t2) {
+  const dx = t1.clientX - t2.clientX;
+  const dy = t1.clientY - t2.clientY;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+
+viewport.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    const t = e.touches[0];
+    // Check if touching a card
+    const card = t.target.closest('.card');
+    if (card) {
+      // Card touch — handled by card's own touchstart
+      touchState = null;
+      return;
+    }
+    // Canvas single-finger pan
+    touchState = {
+      type: 'pan',
+      startX: t.clientX - panX,
+      startY: t.clientY - panY
+    };
+  } else if (e.touches.length === 2) {
+    // Two-finger pinch/zoom
+    const t1 = e.touches[0], t2 = e.touches[1];
+    touchState = {
+      type: 'pinch',
+      startDist: getTouchDist(t1, t2),
+      startZoom: zoom,
+      startPanX: panX,
+      startPanY: panY,
+      mid: getTouchMidpoint(t1, t2)
+    };
+    e.preventDefault();
+  }
+}, { passive: false });
+
+viewport.addEventListener('touchmove', e => {
+  if (!touchState) return;
+  e.preventDefault();
+
+  if (touchState.type === 'pan' && e.touches.length === 1) {
+    const t = e.touches[0];
+    panX = t.clientX - touchState.startX;
+    panY = t.clientY - touchState.startY;
+    applyTransform();
+    drawMinimap();
+  } else if (touchState.type === 'pinch' && e.touches.length === 2) {
+    const t1 = e.touches[0], t2 = e.touches[1];
+    const dist = getTouchDist(t1, t2);
+    const scale = dist / touchState.startDist;
+    const newZoom = Math.max(0.08, Math.min(4, touchState.startZoom * scale));
+
+    // Zoom toward midpoint
+    const r = viewport.getBoundingClientRect();
+    const mid = getTouchMidpoint(t1, t2);
+    const mx = mid.x - r.left;
+    const my = mid.y - r.top;
+
+    panX = mx - (mx - touchState.startPanX) * (newZoom / touchState.startZoom);
+    panY = my - (my - touchState.startPanY) * (newZoom / touchState.startZoom);
+    zoom = newZoom;
+
+    applyTransform();
+    drawMinimap();
+  }
+}, { passive: false });
+
+viewport.addEventListener('touchend', e => {
+  if (touchState && touchState.type === 'pinch' && e.touches.length < 2) {
+    // Transition from pinch back to possible pan
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      touchState = {
+        type: 'pan',
+        startX: t.clientX - panX,
+        startY: t.clientY - panY
+      };
+    } else {
+      touchState = null;
+    }
+  } else if (e.touches.length === 0) {
+    touchState = null;
+  }
+}, { passive: true });
+
+// ── Touch drag for cards ──
+function addCardTouchDrag(el, nid) {
+  let cardDrag = null;
+  let longPressTimer = null;
+  let didMove = false;
+
+  el.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    const t = e.touches[0];
+    didMove = false;
+
+    // Long-press → context menu
+    longPressTimer = setTimeout(() => {
+      if (!didMove) {
+        el.classList.add('press-active');
+        setTimeout(() => el.classList.remove('press-active'), 400);
+        if (navigator.vibrate) navigator.vibrate(18);
+        ctxTargetId = nid;
+        showCtxMenu(t.clientX, t.clientY);
+      }
+    }, 500);
+
+    // Prepare drag state
+    cardDrag = {
+      startTouchX: t.clientX,
+      startTouchY: t.clientY,
+      startElX: parseFloat(el.style.left) || 0,
+      startElY: parseFloat(el.style.top)  || 0,
+      moved: false
+    };
+    e.stopPropagation();
+  }, { passive: true });
+
+  el.addEventListener('touchmove', e => {
+    if (!cardDrag || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    const dx = (t.clientX - cardDrag.startTouchX) / zoom;
+    const dy = (t.clientY - cardDrag.startTouchY) / zoom;
+
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+      didMove = true;
+      clearTimeout(longPressTimer);
+      cardDrag.moved = true;
+      const nx = cardDrag.startElX + dx;
+      const ny = cardDrag.startElY + dy;
+      el.style.left = nx + 'px';
+      el.style.top  = ny + 'px';
+      const nd = nodes.find(n => n.id === nid);
+      if (nd) { nd.x = nx; nd.y = ny; }
+      drawLinks(); drawMinimap();
+    }
+    e.preventDefault();
+    e.stopPropagation();
+  }, { passive: false });
+
+  el.addEventListener('touchend', e => {
+    clearTimeout(longPressTimer);
+    if (cardDrag && !cardDrag.moved) {
+      // Tap — select the card
+      if (linkMode) {
+        if (linkSource && linkSource !== nid) finishLink(nid);
+        else initLink(nid);
+      } else {
+        clearSelection();
+        selectedIds.add(nid);
+        el.classList.add('selected');
+        updateStatus();
+      }
+    }
+    cardDrag = null;
+    e.stopPropagation();
+  }, { passive: true });
+}
+
+// Patch createNode to add touch drag after element is appended
+const _origCreateNode = createNode;
+// We can't easily wrap createNode here since it's a function declaration.
+// Instead, add touch events in a post-create hook called from createNode's return path.
+// We patch this by wrapping at the call site... actually, simplest: expose a helper.
+
+function attachMobileTouchToCard(nid) {
+  const el = document.getElementById(nid);
+  if (el && isMobile()) addCardTouchDrag(el, nid);
+}
+
+// Drawer swipe-down to close
+let drawerTouchStartY = 0;
+document.getElementById('mobile-drawer').addEventListener('touchstart', e => {
+  drawerTouchStartY = e.touches[0].clientY;
+}, { passive: true });
+document.getElementById('mobile-drawer').addEventListener('touchmove', e => {
+  const dy = e.touches[0].clientY - drawerTouchStartY;
+  if (dy > 60) closeMobileDrawer();
+}, { passive: true });
+
+// Close drawer when tapping canvas
+viewport.addEventListener('touchstart', e => {
+  if (!e.target.closest('.card') && !e.target.closest('#mobile-drawer')) {
+    closeMobileDrawer();
+  }
+}, { passive: true });
+
 // ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
@@ -2128,8 +2594,10 @@ document.getElementById('fs-overlay').addEventListener('click', e => {
 setTimeout(() => {
   const vw = viewport.clientWidth, vh = viewport.clientHeight;
   const cx = screenToWorld(vw/2, vh/2);
-  createNode({type:'note', title:'WELCOME', content:'NORDICA TACTICAL CANVAS V4\n\n— DRAG cards to move\n— SCROLL to zoom\n— ALT+DRAG to pan\n— N = new note\n— B = new board\n— L = link mode\n— DEL = delete selected\n— CTRL+A = select all\n— CTRL+S = save\n— CTRL+D = duplicate\n— Click SVG line to delete link\n\nRIGHT-CLICK any card for options.', x: cx.x - 260, y: cx.y - 80});
-  createNode({type:'board', title:'MISSION BOARD', x: cx.x + 80, y: cx.y - 80});
+  const _wn1 = createNode({type:'note', title:'WELCOME', content:'NORDICA TACTICAL CANVAS V4\n\n— DRAG cards to move\n— SCROLL to zoom\n— ALT+DRAG to pan\n— N = new note\n— B = new board\n— L = link mode\n— DEL = delete selected\n— CTRL+A = select all\n— CTRL+S = save\n— CTRL+D = duplicate\n— Click SVG line to delete link\n\nRIGHT-CLICK / LONG-PRESS any card for options.', x: cx.x - 260, y: cx.y - 80});
+  const _wn2 = createNode({type:'board', title:'MISSION BOARD', x: cx.x + 80, y: cx.y - 80});
+  attachMobileTouchToCard(_wn1);
+  attachMobileTouchToCard(_wn2);
   drawMinimap();
 }, 100);
 </script>
